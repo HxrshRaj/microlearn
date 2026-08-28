@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MicroLearn — Bite-sized skills, real streaks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">◆</span>
+        <span class="brand-name">MicroLearn</span>
+      </div>
+      <div class="topbar-stats">
+        <div class="stat-pill streak-pill">
+          <span class="flame" id="flame-icon">🔥</span>
+          <span id="streak-count">0</span>
+          <span class="stat-label">day streak</span>
+        </div>
+        <div class="stat-pill xp-pill">
+          <span id="xp-count">0</span>
+          <span class="stat-label">XP</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="view-root">
+      <!-- Views are rendered here by app.js -->
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "microlearn",
+  "version": "1.0.0",
+  "description": "A gamified microlearning platform with streaks, XP, and quiz-based lessons",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
