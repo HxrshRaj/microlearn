@@ -8,7 +8,15 @@ const bcrypt = require('bcryptjs');
 // (see server/db.js's original comment). It's slower than native bcrypt or
 // argon2, but for an app this size that tradeoff is worth the zero-build-step
 // deploy story.
-const SALT_ROUNDS = 12;
+//
+// The cost factor is deliberately lower under test (Jest sets NODE_ENV=test
+// automatically): 12 rounds is real, load-bearing security in production,
+// but the test suite hashes/verifies passwords dozens of times across two
+// full auth flows per test, and bcrypt's cost is *designed* to be slow --
+// running production rounds there just risks flaky CI timeouts on a slower
+// runner for zero extra test confidence (verifyPassword works identically
+// regardless of the cost factor used at hash time; it's embedded in the hash).
+const SALT_ROUNDS = process.env.NODE_ENV === 'test' ? 4 : 12;
 
 async function hashPassword(plainPassword) {
   return bcrypt.hash(plainPassword, SALT_ROUNDS);
