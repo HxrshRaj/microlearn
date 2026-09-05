@@ -9,7 +9,10 @@ function scoreQuiz(questions, answers = {}) {
   let correct = 0;
   const results = questions.map((q) => {
     const selected = answers[q.id];
-    const isCorrect = selected === q.correct_index;
+    // Explicit undefined check: `selected === q.correct_index` alone would
+    // score an unanswered question as "correct" in the (should-never-happen,
+    // but don't bet on it) case where correct_index is itself undefined.
+    const isCorrect = selected !== undefined && selected === q.correct_index;
     if (isCorrect) correct += 1;
     return { questionId: q.id, correct: isCorrect, correctIndex: q.correct_index };
   });
