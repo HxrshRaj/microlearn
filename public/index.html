@@ -15,16 +15,27 @@
         <span class="brand-mark">◆</span>
         <span class="brand-name">MicroLearn</span>
       </div>
-      <div class="topbar-stats">
-        <div class="stat-pill streak-pill">
-          <span class="flame" id="flame-icon">🔥</span>
-          <span id="streak-count">0</span>
-          <span class="stat-label">day streak</span>
+
+      <nav class="topnav" id="topnav" hidden>
+        <button class="nav-link" data-nav="dashboard">Dashboard</button>
+        <button class="nav-link" data-nav="history">History</button>
+        <button class="nav-link" data-nav="leaderboard">Leaderboard</button>
+        <button class="nav-link" data-nav="profile">Profile</button>
+      </nav>
+
+      <div class="topbar-right">
+        <div class="topbar-stats" id="topbar-stats" hidden>
+          <div class="stat-pill streak-pill">
+            <span class="flame" id="flame-icon">🔥</span>
+            <span id="streak-count">0</span>
+            <span class="stat-label">day streak</span>
+          </div>
+          <div class="stat-pill xp-pill">
+            <span id="xp-count">0</span>
+            <span class="stat-label">XP</span>
+          </div>
         </div>
-        <div class="stat-pill xp-pill">
-          <span id="xp-count">0</span>
-          <span class="stat-label">XP</span>
-        </div>
+        <button class="nav-link logout-link" id="logout-btn" hidden>Log out</button>
       </div>
     </header>
 

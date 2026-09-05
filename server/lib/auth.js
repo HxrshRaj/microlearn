@@ -19,7 +19,10 @@ async function verifyPassword(plainPassword, passwordHash) {
   return bcrypt.compare(plainPassword, passwordHash);
 }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Deliberately conservative charset (not the full RFC 5322 grammar) — this
+// is a signup form, not an email-parsing library, and keeping it narrow
+// means a stray '<', '"', etc. in the input can never reach a template.
+const EMAIL_RE = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/;
 
 function isValidEmail(email) {
   return typeof email === 'string' && email.length <= 254 && EMAIL_RE.test(email);

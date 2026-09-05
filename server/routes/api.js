@@ -2,6 +2,15 @@ const express = require('express');
 const { scoreQuiz, computeXp } = require('../lib/scoring');
 const { todayISO, applyActivity } = require('../lib/streak');
 
+// The `questions.options` column is jsonb. The real `pg` driver parses jsonb
+// columns into JS values automatically, but not every Postgres-compatible
+// engine does the same (the in-memory one used in tests hands back the raw
+// JSON text) — parse defensively here so this route behaves identically
+// everywhere rather than depending on driver behavior.
+function parseOptions(value) {
+  return typeof value === 'string' ? JSON.parse(value) : value;
+}
+
 /** @param {import('knex').Knex} knex */
 module.exports = function createApiRouter(knex) {
   const router = express.Router();
@@ -37,7 +46,7 @@ module.exports = function createApiRouter(knex) {
       .orderBy('sort_order')
       .select('id', 'prompt', 'options');
 
-    res.json({ ...lesson, questions });
+    res.json({ ...lesson, questions: questions.map((q) => ({ ...q, options: parseOptions(q.options) })) });
   });
 
   // POST /api/lessons/:id/submit — { answers: { questionId: selectedIndex } }
