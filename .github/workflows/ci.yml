@@ -8,6 +8,16 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: microlearn
+          POSTGRES_PASSWORD: microlearn
+          POSTGRES_DB: microlearn_e2e
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U microlearn" --health-interval 5s --health-timeout 5s --health-retries 10
     strategy:
       matrix:
         node-version: [20.x]
@@ -25,3 +35,12 @@ jobs:
 
       - name: Run test suite
         run: npm test
+
+      - name: Build NestJS port
+        run: cd nest && npm ci && npm run build
+
+      - name: Contract test - same integration suite against the NestJS port
+        run: MICROLEARN_IMPL=nest npx jest tests/integration
+
+      - name: NestJS end-to-end on real PostgreSQL
+        run: E2E_DATABASE_URL=postgres://microlearn:microlearn@localhost:5432/microlearn_e2e npx jest tests/e2e

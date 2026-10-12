@@ -29,6 +29,14 @@ async function buildTestApp() {
   await knex.migrate.latest();
   await knex.seed.run();
 
+  // MICROLEARN_IMPL=nest runs this exact suite against the NestJS port (nest/), as a
+  // contract test: same routes, status codes, and JSON shapes as the Express server.
+  if (process.env.MICROLEARN_IMPL === 'nest') {
+    const { createNestApp } = require('../../nest/dist/create-app');
+    const nestApp = await createNestApp(knex);
+    return { app: nestApp.getHttpServer(), knex };
+  }
+
   const app = createApp(knex);
   return { app, knex };
 }

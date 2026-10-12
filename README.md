@@ -166,3 +166,7 @@ Named here so it's a decision, not an oversight: password reset / email verifica
 - A "review missed questions" mode, using the history data that now exists
 - Spaced-repetition scheduling for previously completed lessons
 - A lesson-authoring UI so new content doesn't require a migration/seed change
+
+## NestJS port
+
+See [`nest/`](nest/README.md): a TypeScript/NestJS implementation of the same API, verified by running this repo's integration suite against it and by an end-to-end test on real PostgreSQL.
