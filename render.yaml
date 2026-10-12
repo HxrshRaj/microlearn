@@ -1,0 +1,20 @@
+# Render Blueprint: one web service runs the Express API and serves the built React client.
+# Create a free MongoDB Atlas cluster and paste its connection string into MONGO_URI.
+services:
+  - type: web
+    name: microlearn-mern
+    runtime: docker
+    dockerfilePath: ./mern/Dockerfile
+    dockerContext: ./mern
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false   # the service's own URL, e.g. https://microlearn-mern.onrender.com

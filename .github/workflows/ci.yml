@@ -44,3 +44,27 @@ jobs:
 
       - name: NestJS end-to-end on real PostgreSQL
         run: E2E_DATABASE_URL=postgres://microlearn:microlearn@localhost:5432/microlearn_e2e npx jest tests/e2e
+
+  mern:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:7
+        ports: ['27017:27017']
+    defaults:
+      run:
+        working-directory: mern
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: |
+            mern/package-lock.json
+            mern/client/package-lock.json
+      - run: npm ci
+      - name: API tests (real MongoDB)
+        run: MONGO_URI=mongodb://127.0.0.1:27017 npm test
+      - name: Build React + Tailwind client
+        run: npm --prefix client ci && npm --prefix client run build
